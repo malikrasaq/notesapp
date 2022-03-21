@@ -32,51 +32,54 @@ class _LoginViewState extends State<LoginView> {
       appBar: AppBar(
         title: const Text('Login'),
       ),
-     body: Column(children: [
-                      TextField(
-                        autocorrect: false,
-                        enableSuggestions: false,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your E-mail',
-                        ),
-                        controller: _email,
-                      ),
-                      TextField(
-                        autocorrect: false,
-                        enableSuggestions: false,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your Password',
-                        ),
-                        controller: _password,
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          final email = _email.text;
-                          final password = _password.text;
-                          try {
-                            final userCredential = await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                                    email: email, password: password);
-                            print(userCredential);
-                          } on FirebaseAuthException catch (e) {
-                            if (e.code == 'user-not-found') {
-                              print('user not found');
-                            } else if (e.code == 'wrong-password') {
-                              print('Invalid password');
-                            }
-                          }
-                        },
-                        child: const Text('Login'),
-                      ),
-                      TextButton(onPressed: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          '/register/', 
-                          (route) => false);
-                      }, child: const Text('Not registered yet? Rgister here!'),)
-                    ],
-                    ),
+      body: Column(
+        children: [
+          TextField(
+            autocorrect: false,
+            enableSuggestions: false,
+            keyboardType: TextInputType.emailAddress,
+            decoration: const InputDecoration(
+              hintText: 'Enter your E-mail',
+            ),
+            controller: _email,
+          ),
+          TextField(
+            autocorrect: false,
+            enableSuggestions: false,
+            obscureText: true,
+            decoration: const InputDecoration(
+              hintText: 'Enter your Password',
+            ),
+            controller: _password,
+          ),
+          TextButton(
+            onPressed: () async {
+              final email = _email.text;
+              final password = _password.text;
+              try {
+                final userCredential = await FirebaseAuth.instance
+                    .signInWithEmailAndPassword(
+                        email: email, password: password);
+                print(userCredential);
+              } on FirebaseAuthException catch (e) {
+                if (e.code == 'user-not-found') {
+                  print('user not found');
+                } else if (e.code == 'wrong-password') {
+                  print('Invalid password');
+                }
+              }
+            },
+            child: const Text('Login'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/register/', (route) => false);
+            },
+            child: const Text('Not registered yet? Register here!'),
+          )
+        ],
+      ),
     );
   }
 }
