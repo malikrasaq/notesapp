@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/services/auth/auth_exceptions.dart';
 import 'package:notesapp/services/auth/auth_services.dart';
-import 'package:notesapp/utilities/show_error_dialog.dart';
+import 'package:notesapp/utilities/dialogs/error_dialog.dart';
 import 'package:notesapp/constants/routes.dart';
 
 class RegisterView extends StatefulWidget {
@@ -57,16 +57,17 @@ class _RegisterViewState extends State<RegisterView> {
             final email = _email.text;
             final password = _password.text;
             try {
-              await AuthService.firebase().createUser(email: email, password: password);
-                      AuthService.firebase().sendEmailVerification();
-                      Navigator.of(context).pushNamed(verifyEmailRoute);
+              await AuthService.firebase()
+                  .createUser(email: email, password: password);
+              AuthService.firebase().sendEmailVerification();
+              Navigator.of(context).pushNamed(verifyEmailRoute);
             } on WeakPasswordAuthException {
               await showErrorDialog(
                 context,
                 'Weak Password',
               );
             } on EmailAlreadyInUseAuthException {
-               await showErrorDialog(
+              await showErrorDialog(
                 context,
                 'Email is already in use',
               );
