@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/constants/routes.dart';
 import 'package:notesapp/enum/menu_action.dart';
-import 'package:notesapp/main.dart';
 import 'package:notesapp/services/auth/auth_services.dart';
 import 'package:notesapp/services/cloud/cloud_note.dart';
 import 'package:notesapp/services/cloud/firebase_cloud_storage.dart';
+import 'package:notesapp/utilities/dialogs/logout_dialog.dart';
 import 'package:notesapp/views/notes/note_list_view.dart';
 
 class NotesView extends StatefulWidget {
@@ -40,7 +40,7 @@ class _NotesViewState extends State<NotesView> {
             onSelected: (value) async {
               switch (value) {
                 case MenuAction.logout:
-                  final shouldLogout = await showLogOutDialog(context);
+                  final shouldLogout = await showLogOutDialog (context);
                   if (shouldLogout) {
                     await AuthService.firebase().logout();
                     Navigator.of(context)
